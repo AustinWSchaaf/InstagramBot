@@ -1,0 +1,15 @@
+--2021-02-23 12:30:37--  https://www.youtube.com/watch?fbclid=IwAR1fo187exuh2aeaRrYf566ZQWrDvEIH-dkb2w9SER8ldxGQxE43DG9cZJI
+Resolving www.youtube.com (www.youtube.com)... 2607:f8b0:4009:802::200e, 2607:f8b0:4009:803::200e, 2607:f8b0:4009:815::200e, ...
+Connecting to www.youtube.com (www.youtube.com)|2607:f8b0:4009:802::200e|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.youtube.com [following]
+--2021-02-23 12:30:37--  https://www.youtube.com/
+Reusing existing connection to [www.youtube.com]:443.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘watch?fbclid=IwAR1fo187exuh2aeaRrYf566ZQWrDvEIH-dkb2w9SER8ldxGQxE43DG9cZJI’
+
+            watch?fbclid     [<=>                                ]       0  --.-KB/s                          watch?fbclid=     [ <=>                               ] 148.51K   289KB/s               watch?fbclid=IwAR1fo187e     [  <=>                              ] 552.54K   883KB/s    in 0.6s    
+
+2021-02-23 12:30:38 (883 KB/s) - ‘watch?fbclid=IwAR1fo187exuh2aeaRrYf566ZQWrDvEIH-dkb2w9SER8ldxGQxE43DG9cZJI’ saved [565806]
+
