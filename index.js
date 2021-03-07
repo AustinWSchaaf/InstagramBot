@@ -41,7 +41,7 @@ let setup = async () => {
 };
 
 let run = async(page,arr) => {
-    
+
     if (arr){
         await arr.forEachAsync(async item => {
             const handle = item?.handle;
@@ -49,17 +49,17 @@ let run = async(page,arr) => {
 
             if (handle){
                 const path = url + handle;
-                await like(page,path,item.count);
+                await like(page,path,item.count,item.likeComments,item.visitUsers);
             }else if(tag){
                 const path = url + 'explore/tags/' + tag; 
-                await like(page,path,item.count);
+                await like(page,path,item.count,item.likeComments,item.visitUsers);
             }
         });
     }
 }
 
 
-let like = async (page, path, count) => {
+let like = async (page, path, count, likeComments, visitUsers) => {
 
     await page.goto(path);
     await page.waitForTimeout(2000);
@@ -71,7 +71,17 @@ let like = async (page, path, count) => {
 
     let range = n => [...Array(n).keys()]
 
+    var handles = new Array(); 
+
     await range(count).forEachAsync(async _ => {
+
+        //get user handle
+        if (visitUsers){
+            const handle = await page.$('div > h2 > div > span > .sqdOP');
+            const user = await page.evaluate(el => el.textContent, handle);
+            handles.push(user);
+        }
+        
         //arrow button
         const rightArrow = await page.$('.coreSpriteRightPaginationArrow');
         if (rightArrow){
@@ -91,10 +101,23 @@ let like = async (page, path, count) => {
             }
         }
 
-        await contentComments(page);
-
+        if (likeComments){
+            await contentComments(page);
+        }
+        
         await page.waitForTimeout(1500);
     });
+
+    if (visitUsers){
+        await handles.forEachAsync(async handle => {
+            const userPath = url + handle;
+            await like(page,userPath,count,false,false);
+        });    
+    }
+
+    // for(user in handles){
+    //     console.log(`User path: ${url+handles[user]}`);
+    // }
 
     await page.waitForTimeout(1000);    
 }
@@ -119,6 +142,11 @@ let contentComments = async (page) => {
     }
 }
 
+const userPage = async (page) => {
+    const userHandle = await page.$('span[class="Jv7Aj"] > a.sqdOP');
+
+}
+
 const random = n => { return Math.floor(Math.random() * Math.floor(n)); }
 
 (async () => {
@@ -129,10 +157,8 @@ const random = n => { return Math.floor(Math.random() * Math.floor(n)); }
     const users = args?.users;
     const tags = args?.tags;
 
-    console.log('Running users!');
     await run(page,users)
 
-    console.log('Running tags!');
     await run(page,tags);
 })();
 
